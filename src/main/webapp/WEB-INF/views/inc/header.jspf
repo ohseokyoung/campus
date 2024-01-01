@@ -1,0 +1,44 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" ></script>
+<link rel="stylesheet" href="/css/mainStyle.css" type="text/css"/>
+<link rel="stylesheet" href="/css/style.css" type="text/css"/>
+<link rel="stylesheet" href="https://webfontworld.github.io/NanumSquare/NanumSquare.css"/>
+<style>
+	#mainimg{height:100px;}
+	body{font-family: 'NanumSquare', sans-serif;}
+	header>div{background-color:lightyellow; text-align:center;}
+
+</style>
+</head>
+<body>
+<!-- 페이지 상단 -->
+
+<header>
+	<div><a href="/"><img src="https://cdn.discordapp.com/attachments/1186957771447488542/1186957818608226354/STN.png?ex=6595239c&is=6582ae9c&hm=2c0b06f328fc09227050724953c356e03028da028b11809c1956d9b11545bfe1&" id="mainimg"/></a></div>
+	<nav class='topMenu'>
+		<ul>			
+			<li><a href="/board/list">게시판</a></li>
+			<li><a href="/data/list">자료실</a></li>
+			<li><a href="/customer/customerMain">고객지원</a></li>
+		
+			<c:if test="${empty logStatus or logStatus != 'Y'}">
+                <li><a href="/users/login">로그인</a></li>
+                <li><a href="/users/usersForm">회원가입</a></li>
+            </c:if>
+            <c:if test="${not empty logStatus and logStatus == 'Y'}">
+                <li><a href="/users/logout">${session.getAttribute("logName")}님 로그아웃</a></li>
+                <li><a href="/users/userUpdate">회원정보수정</a></li>
+            </c:if>
+            <c:if test="${not empty logStatus and logStatus == 'Y' and manager == 'Y'}">
+                <li><a href="/users/admin"><b style="color:orange;">회원정보관리/문의사항관리</b></a></li>
+            </c:if>
+		
+		</ul>
+	</nav>
+</header>

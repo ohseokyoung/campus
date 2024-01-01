@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.campus.mapper.UsersMapper">
+	<!-- select count(userid) from users where userid='abcd'; -->
+	<select id="idCheck" resultType="int">
+		select count(userid) from users where userid=#{param1}
+	</select>
+	<!-- 회원가입 -->
+	<insert id="usersInsert">
+		insert into users(userid,userpwd,username,tel,email,zipcode,addr,addrdetail)
+		values(#{userid},#{userpwd},#{username},#{tel},#{email},#{zipcode},#{addr},#{addrdetail})
+		
+	</insert>
+	<!-- 로그인 -->
+	<select id="loginSelect" resultType="com.multi.campus.vo.UsersVO">
+		select userid, username, manager from users where userid=#{param1} and userpwd=#{param2}
+	</select>
+	<!-- 회원정보수정 -->
+	<update id="userUpdate">
+		update users set 
+		userpwd = #{userpwd}, 
+    	username = #{username},
+    	tel = #{tel},
+    	email = #{email},
+    	zipcode = #{zipcode},
+    	addr = #{addr},
+    	addrdetail = #{addrdetail}
+		where userid = #{userid}
+	</update>	
+	<!-- 회원정보가져오기 -->
+	<select id="userSelect" resultType="com.multi.campus.vo.UsersVO">
+		select userid, userpwd, username, tel, email, zipcode, addr, addrdetail from users
+		where userid= #{userid} 
+	</select>
+	
+	<!-- 관리자페이지 -->
+		<select id='userList' resultType='com.multi.campus.vo.UsersVO'>
+                select userid, writedate, email, addr, addrdetail
+                from users ORDER BY writedate ASC
+        </select>
+        <select id='todaySignup' resultType='java.lang.Integer'>
+                select count(*) from users where date(writedate)=curdate()
+        </select>
+        <select id='monthSignup' resultType='java.lang.Integer'>
+                select count(*) from users WHERE MONTH(writedate) = MONTH(CURDATE()) AND YEAR(writedate) = YEAR(CURDATE());
+        </select>
+        <select id='monthSignupPrevious' resultType='java.lang.Integer'>
+                select count(*) from users WHERE MONTH(writedate) = MONTH(CURDATE()- INTERVAL 1 MONTH) AND YEAR(writedate) = YEAR(CURDATE()- INTERVAL 1 MONTH);
+        </select>
+        <!-- 유저삭제 -->
+        <delete id="userDelete" parameterType="string">
+		    delete from users where userid = #{userid}
+		</delete>
+		<!-- 관리자권한부여 -->
+		<update id="userManager">
+			update users set manager='Y' where userid = #{userid};
+		</update>
+</mapper>

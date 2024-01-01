@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+body,ul,li{
+	margin:0;padding:0;list-style-type: none;
+}
+
+a:link,a:visited,a:hover,a:active {
+	color:black;
+	text-decoration: none;
+}
+
+
+header>div{
+	margin: 0 auto; 
+	padding:0;
+}
+
+.topMenu{
+	height: 50px;
+	line-height:50px;
+	background-color: #002B5B;
+}
+
+.topMenu>ul{
+	height:40px;
+	margin:0 auto;
+	width: 1000px;
+}
+
+.topMenu li{
+	float: left;
+	padding: 0px 20px;
+	height: 40px;
+	line-height: 40px;
+}
+.topMenu a:link, .topMenu a:visited {
+	color: #fff;
+}
+.topMenu a:hover {
+	color: yellow;
+}
+
+footer{
+	height: 100px;
+	line-height:50px;
+	text-align: center;
+	background: #ddd;
+	margin: 10px 0px;
+}
+
+
+

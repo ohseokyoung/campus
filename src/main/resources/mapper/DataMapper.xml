@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.multi.campus.mapper.DataMapper">
+	<select id="dataList" resultType="com.multi.campus.vo.DataVO">
+		select no,subject,userid,hit,date_format(writedate,'%m-%d %H:%i') writedate 
+		from data order by no desc
+	</select>
+	
+	<insert id="dataInsert" parameterType="com.multi.campus.vo.DataVO" useGeneratedKeys="true" keyProperty="no" >
+		insert into data(subject,content,userid) values(#{subject},#{content},#{userid})
+	</insert>
+	<insert id="datafileInsert" parameterType="java.util.List">
+		<foreach item="item" collection="list" open ="insert into dataFile(no,filename) values "
+			separator=",">
+			(${item.no},#{item.filename})
+		</foreach>
+	</insert>
+	<update id="dataHitCount">
+		update data set hit=hit+1 where no=${param1}
+	</update>
+	<select id="dataSelect" resultType="com.multi.campus.vo.DataVO">
+		select no,subject,content,userid,hit,writedate from data where no=${param1}
+	</select>
+	<select id="getDataFile" resultType="com.multi.campus.vo.DatafileVO">
+		select no,filename from datafile where no=${param1} 
+	</select>
+	<!-- parameterType: 매개변수 resultType:리턴값-->
+	<update id="dataUpdate" parameterType="com.multi.campus.vo.DataVO">
+		update data set subject=#{subject}, content=#{content} where no=${no} and userid=#{userid}
+	</update>
+	<delete id="dataDelete">
+		delete from datafile where no=${param1}
+	</delete>
+	<delete id="dataRecordDelete">
+		delete from data where no=${param1} and userid=#{param2}
+	</delete>
+	
+</mapper>

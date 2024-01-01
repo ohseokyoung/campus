@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.campus.mapper.CustomerMapper">
+	<insert id="customerInsert">
+	
+		insert into customer(subject,type,content,userid,ip)
+		values(#{subject},#{type},#{content},#{userid},#{ip})
+	</insert>
+	<select id="customerPageList" resultType="com.multi.campus.vo.CustomerVO">
+		select no, type, subject, userid, date_format(writedate,'%m-%d %h:%i') writedate
+		from customer order by no desc
+		limit ${onePageRecord} offset ${offsetPoint}
+		
+	</select>
+	<select id="totalRecord">
+		select count(no) from customer
+		
+	</select>
+	
+	<select id="customerSelect" resultType="com.multi.campus.vo.CustomerVO">
+
+		select no,type,subject,content,userid,writedate,reply from customer
+		where no=${param1}
+	</select>
+	
+	<update id="customerUpdate">
+		update customer set type=#{type}, subject=#{subject}, content=#{content} where no=${no}
+	</update>
+	<!-- 문의삭제 -->
+	<delete id="customerDelete">
+		delete from customer where no=${param1}
+	</delete>
+	
+	<!-- 문의답변 -->
+	<update id="replyWrite">
+		update customer set reply=#{reply} where no= #{no} 
+	</update>
+</mapper>
